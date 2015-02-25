@@ -8,6 +8,7 @@ Agies_Reclaimed_No_Roshan = cAqua
 Roshan_Respawn_Window = cYellow
 
 Time_Remaining = 0
+Show_OSD = 2
 CustomColor = EEAA99  ; Can be any RGB color (it will be made transparent below).
 Gui +LastFound +AlwaysOnTop -Caption +ToolWindow  ; +ToolWindow avoids a taskbar button and an alt-tab menu item.
 Gui, Color, %CustomColor%
@@ -27,7 +28,7 @@ MsToMinSec(i) {
 }
 
 UpdateOSD:
-MS_Left := Timer("Roshan","L")
+MS_Left := 660000-Timer("Roshan","L")
 Time_Left := MsToMinSec(MS_Left)
 if Time_Remaining > 0 
  {
@@ -36,17 +37,17 @@ if Time_Remaining > 0
   GuiControl,, MyText, Paused
  }
 else if (Timer("Roshan","S") and !Timer("Roshan")) {
- if MS_Left between 360000 and 660000
+ if MS_Left between 0 and 300000
  {
   Gui, Font, %Agies_Not_Reclaimed_Color%
   GuiControl, Font, MyText
  }
- else if MS_Left between 180001 and 360000 
+ else if MS_Left between 300001 and 480000 
  {
   Gui, Font, %Agies_Reclaimed_No_Roshan%
   GuiControl, Font, MyText
  }
- else if MS_Left between 0 and 180000
+ else if MS_Left between 480001 and 660000
  {
   Gui, Font, %Roshan_Respawn_Window%
   GuiControl, Font, MyText
@@ -80,3 +81,9 @@ return
 pause:: ; Remove timer
  Time_Remaining = 0
  Timer("Roshan","U")
+ 
+^Esc::
+ display := mod(Show_OSD, 2)
+ Show_OSD++
+ GuiControl, Show%display%, MyText
+return
