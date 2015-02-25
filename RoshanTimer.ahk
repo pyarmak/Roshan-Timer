@@ -81,6 +81,7 @@ return
 pause:: ; Remove timer
  Time_Remaining = 0
  Timer("Roshan","U")
+return
  
 ^Esc::
  display := mod(Show_OSD, 2)
